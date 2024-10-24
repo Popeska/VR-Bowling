@@ -2,13 +2,13 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-VR-Bowling/[Ll]ibrary/
-VR-Bowling/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-VR-Bowling/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+/VR-Bowling/[Ll]ibrary/
+/VR-Bowling/[Tt]emp/
+/VR-Bowling/[Oo]bj/
+/VR-Bowling/[Bb]uild/
+/VR-Bowling/[Bb]uilds/
+/VR-Bowling/[Ll]ogs/
+/VR-Bowling/[Uu]ser[Ss]ettings/
 
 
 # MemoryCaptures can get excessive in size.
@@ -73,5 +73,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Removing shader package that's over 100MB
-/VR-Bowling/Library/
+#/VR-Bowling/Library/
 
