@@ -13,10 +13,10 @@
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
-/[Mm]emoryCaptures/
+/VR-Bowling/[Mm]emoryCaptures/
 
 # Recordings can get excessive in size
-/[Rr]ecordings/
+/VR-Bowling/[Rr]ecordings/
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
@@ -66,11 +66,11 @@ sysinfo.txt
 crashlytics-build.properties
 
 # Packed Addressables
-/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/VR-Bowling/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 # Temporary auto-generated Android Assets
-/[Aa]ssets/[Ss]treamingAssets/aa.meta
-/[Aa]ssets/[Ss]treamingAssets/aa/*
+/VR-Bowling/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/VR-Bowling/[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Removing shader package that's over 100MB
 #/VR-Bowling/Library/
