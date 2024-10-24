@@ -3,7 +3,7 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 /VR-Bowling/[Ll]ibrary/
-/VR-Bowling/[Tt]emp/
+./VR-Bowling/[Tt]emp/
 /VR-Bowling/[Oo]bj/
 /VR-Bowling/[Bb]uild/
 /VR-Bowling/[Bb]uilds/
