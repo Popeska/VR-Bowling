@@ -2,12 +2,12 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
+VR-Bowling/[Ll]ibrary/
+VR-Bowling/[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
-/[Ll]ogs/
+VR-Bowling/[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
 
@@ -74,4 +74,4 @@ crashlytics-build.properties
 
 # Removing shader package that's over 100MB
 /VR-Bowling/Library/
-./Temp
+
