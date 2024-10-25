@@ -56,7 +56,7 @@ public class PinManager : MonoBehaviour
         foreach (GameObject pin in pins)
         {
             Rigidbody rb = pin.GetComponent<Rigidbody>();
-            if (rb != null && (rb.rotation.eulerAngles.x < 255f || rb.rotation.eulerAngles.x > 285f)) // Check if pin is knocked down
+            if (rb != null && (rb.rotation.eulerAngles.x < 225f || rb.rotation.eulerAngles.x > 315f)) // Check if pin is knocked down
             {
                 knockedDownPins++;
             }
