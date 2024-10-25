@@ -1,18 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PinManager : MonoBehaviour
 {
-    public GameObject[] pins; // Array to hold the pin GameObjects
-    private int score = 0; // Current score
-    private Vector3[] startingPositions; // Array to store the starting positions of the pins
+    public GameObject[] pins; // Array of pin GameObjects
     private int totalPins; // Total number of pins
-
-    public GameObject ball; // Bowling ball object
-    private Vector3 ballStartingPosition;   // Starting position of bowling ball
+    private int knockedDownPins; // Count of knocked down pins
+    private Vector3[] startingPositions;
 
     void Start()
     {
-        totalPins = pins.Length; // Initialize the total number of pins
+        totalPins = pins.Length; // Initialize total pins
         startingPositions = new Vector3[totalPins]; // Initialize the array to store starting positions
 
         // Store the starting positions of each pin
@@ -20,47 +19,17 @@ public class PinManager : MonoBehaviour
         {
             startingPositions[i] = pins[i].transform.position; // Store each pin's position
         }
-        ballStartingPosition = ball.transform.position;
-        score = 0;
+        ResetPins(); // Reset pins at the start
     }
 
     void Update()
     {
-        // Check if the frame is over and pins need to be reset
-        if (Input.GetKeyDown(KeyCode.R)) // Use 'R' key to reset for testing
-        {
-            ResetPins();
-        }
-
-        // Check for knocked down pins
-        CheckPinsStatus();
+        // You can add logic here if you want to check pin states continuously
     }
 
-    void CheckPinsStatus()
+    // Method to reset all pins to their original position
+    public void ResetPins()
     {
-        int knockedDownCount = 0;
-
-        foreach (GameObject pin in pins)
-        {
-            // Assuming the pin has a Rigidbody component
-            Rigidbody rb = pin.GetComponent<Rigidbody>();
-            if (rb != null && (rb.rotation.eulerAngles.x < 255f || rb.rotation.eulerAngles.x > 285f)) // Check if pin is knocked down
-            {
-                knockedDownCount++;
-                Debug.Log(rb.rotation.eulerAngles.x);
-            }
-        }
-
-        // Update score based on knocked down pins
-        score = knockedDownCount; // Simple score for knocked down pins
-        Debug.Log("Score: " + score);
-    }
-
-    void ResetPins()
-    {
-        // Reset score
-        score = 0;
-
         for (int i = 0; i < totalPins; i++)
         {
             // Teleport pin back to its starting position
@@ -77,24 +46,27 @@ public class PinManager : MonoBehaviour
                 rb.angularVelocity = Vector3.zero; // Stop any rotation
             }
         }
-        // Do the same but for the bowling ball
-        ball.transform.position = ballStartingPosition;
-
-        Rigidbody ballrb = ball.GetComponent<Rigidbody>();
-        if (ballrb != null)
-            {
-                ballrb.velocity = Vector3.zero; // Stop any motion
-                ballrb.angularVelocity = Vector3.zero; // Stop any rotation
-            }
+        knockedDownPins = 0; // Reset knocked down pins count
     }
 
+    // Method to check how many pins have been knocked down
+    public int GetKnockedDownCount()
+    {
+        knockedDownPins = 0; // Reset count for this check
+        foreach (GameObject pin in pins)
+        {
+            Rigidbody rb = pin.GetComponent<Rigidbody>();
+            if (rb != null && (rb.rotation.eulerAngles.x < 255f || rb.rotation.eulerAngles.x > 285f)) // Check if pin is knocked down
+            {
+                knockedDownPins++;
+            }
+        }
+        return knockedDownPins; // Return the count of knocked down pins
+    }
+
+    // Method to check if the round is over (all pins knocked down)
     public bool CheckIfRoundOver()
     {
-    // Example condition: all pins knocked down or ball has stopped moving
-    bool allPinsKnockedDown = score == pins.Length; // Assuming score tracks knocked down pins
-    bool ballStopped = ball.GetComponent<Rigidbody>().velocity.magnitude < 0.1f;
-
-    return allPinsKnockedDown || ballStopped;
+        return knockedDownPins >= totalPins; // Return true if all pins are knocked down
     }
 }
-// Kelly- testing Git push
