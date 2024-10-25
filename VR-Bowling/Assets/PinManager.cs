@@ -87,5 +87,14 @@ public class PinManager : MonoBehaviour
                 ballrb.angularVelocity = Vector3.zero; // Stop any rotation
             }
     }
+
+    public bool CheckIfRoundOver()
+    {
+    // Example condition: all pins knocked down or ball has stopped moving
+    bool allPinsKnockedDown = score == pins.Length; // Assuming score tracks knocked down pins
+    bool ballStopped = ball.GetComponent<Rigidbody>().velocity.magnitude < 0.1f;
+
+    return allPinsKnockedDown || ballStopped;
+    }
 }
 // Kelly- testing Git push
