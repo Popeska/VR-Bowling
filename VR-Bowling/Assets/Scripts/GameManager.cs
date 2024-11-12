@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
         // Update the UI with the new score
         totalScore = scoreKeeper.GetTotalScore(); // Now works after adding GetTotalScore method
-        scoreKeeper.UpdateScoreText(scoreText); // Update the score text in the UI
+        // Update the score text in the UI once we have the UI
 
         // Move to the next throw/frame
         if (currentThrow == 1)
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         pinManager.ResetPins();
         ballController.ResetBall();
 
-        UpdateUI(); // Update UI
+        UpdateUI(); // Update UI when UI is implemented
     }
 
     void UpdateUI()

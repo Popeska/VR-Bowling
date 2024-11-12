@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // For TextMeshPro
+using TMPro; 
 
 public class ScoreKeeper : MonoBehaviour
 {
@@ -16,7 +16,6 @@ public class ScoreKeeper : MonoBehaviour
         scores[currentRoll] = pins;
         currentRoll++;
 
-        // Handle the frame logic
         if (currentFrame <= 10)
         {
             if (IsStrike(currentRoll - 1))
@@ -78,7 +77,7 @@ public class ScoreKeeper : MonoBehaviour
         return scores[rollIndex + 2];
     }
 
-    // Get the total score calculated from all rolls
+    
     public int GetTotalScore()
     {
         return totalScore;
@@ -87,16 +86,7 @@ public class ScoreKeeper : MonoBehaviour
     {
         return currentFrame > 10;
     }
-
-    // For UI updates
-    public void UpdateScoreText(TextMeshProUGUI scoreText)
-    {
-        if (scoreText != null)
-        {
-            scoreText.text = "Score: " + totalScore;
-        }
-    }
-
+   
     // Reset the score-related variables when restarting the game
     public void ResetScore()
     {
