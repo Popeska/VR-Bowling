@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d9eceee913a87684fb02cf989d61e5d7
+guid: b583cb135c6e8e641a00d51d750c7812
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -34,7 +34,10 @@ ModelImporter:
     clipAnimations: []
     isReadable: 0
   meshes:
-    lODScreenPercentages: []
+    lODScreenPercentages:
+    - 0.25
+    - 0.125
+    - 0.01
     globalScale: 1
     meshCompression: 0
     addColliders: 0
@@ -47,7 +50,7 @@ ModelImporter:
     importLights: 0
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
-    swapUVChannels: 0
+    swapUVChannels: 1
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
@@ -93,7 +96,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
