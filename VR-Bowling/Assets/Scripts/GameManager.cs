@@ -1,97 +1,82 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // For TextMeshPro
-
 
 public class GameManager : MonoBehaviour
 {
-    public PinManager pinManager;
-    public BallController ballController;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI frameText;
-    public TextMeshProUGUI throwText;
-    public ScoreKeeper scoreKeeper;
+    public PinManager pinManager; // Reference to PinManager
+    public BallController ballController; // Reference to BallController
 
+    public ScoreKeeper scoreKeeper; // Reference to ScoreKeeper
     private int currentFrame = 1;
     private int currentThrow = 1;
     private const int maxFrames = 10;
-    private int totalScore = 0;
-
-    void Start()
-    {
-        UpdateUI();
-    }
+    private bool frameOver = false; // Track if the current frame is over
 
     void Update()
     {
-        if (ballController.BallThrown && pinManager.CheckIfRoundOver())
+        // Check if the ball has been thrown and the frame is over
+        if (ballController.BallThrown && !frameOver)
         {
-            ProcessThrow();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space)) // For manual testing
-        {
-            ProcessThrow();
+            // Check if all pins are down or if the ball stopped
+            if (pinManager.CheckIfRoundOver())
+            {
+                frameOver = true; // Mark frame as over
+                HandleThrow();
+            }
         }
     }
 
-    void ProcessThrow()
+    void HandleThrow()
     {
-        int knockedDownCount = pinManager.GetKnockedDownCount();
-
-        // Record the roll in the ScoreKeeper
-        scoreKeeper.RecordRoll(knockedDownCount);
-
-        // Update the UI with the new score
-        totalScore = scoreKeeper.GetTotalScore(); // Now works after adding GetTotalScore method
-        // Update the score text in the UI once we have the UI
-
-        // Move to the next throw/frame
         if (currentThrow == 1)
         {
-            currentThrow = 2;
-        }
-        else
-        {
-            if (currentFrame < maxFrames)
+            if (pinManager.CheckIfRoundOver()) // Strike condition
             {
-                currentFrame++;
-                currentThrow = 1;
+                Debug.Log("Strike!");
+                NextFrame();
             }
             else
             {
-                // Handle bonus rolls for the 10th frame
-                if (scoreKeeper.IsGameOver())
-                {
-                    EndGame();
-                    return;
-                }
-                currentThrow = 1;
+                currentThrow = 2; // Move to second throw
+                ResetBallOnly();
             }
         }
-
-        pinManager.ResetPins();
-        ballController.ResetBall();
-
-        UpdateUI(); // Update UI when UI is implemented
+        else if (currentThrow == 2)
+        {
+            Debug.Log("End of Frame " + currentFrame);
+            NextFrame();
+        }
     }
 
-    void UpdateUI()
+    void NextFrame()
     {
-        if (frameText != null)
-            frameText.text = "Frame: " + currentFrame;
+        if (currentFrame < maxFrames)
+        {
+            currentFrame++;
+            currentThrow = 1;
+            pinManager.ResetPins(); // Reset all pins
+            ballController.ResetBall(); // Reset the ball
+        }
+        else
+        {
+            EndGame();
+        }
 
-        if (throwText != null)
-            throwText.text = "Throw: " + currentThrow;
+        frameOver = false; // Reset frame status
+    }
+
+    void ResetBallOnly()
+    {
+        ballController.ResetBall(); // Reset ball without resetting pins
+        frameOver = false; // Allow next throw
     }
 
     void EndGame()
     {
-        Debug.Log("Game Over! Final Score: " + totalScore);
-        ResetGame();
+        Debug.Log("Game Over! Final Score: " + 40);
+        // TODO: Implement end game logic (e.g., show score UI, restart, etc.)
     }
 
+/*
     void ResetGame()
     {
         currentFrame = 1;
@@ -102,4 +87,5 @@ public class GameManager : MonoBehaviour
         ballController.ResetBall();
         UpdateUI();
     }
+    */
 }
