@@ -26,8 +26,11 @@ public class PinManager : MonoBehaviour
     {
         // You can add logic here if you want to check pin states continuously
         if(Input.GetKeyDown(KeyCode.Space)){
-            ResetPins();
+            //ResetPins();
+            int pinsknock = GetKnockedDownCount();
+            Debug.Log("PM: " + pinsknock);
        }
+       
     }
 
     // Method to reset all pins to their original position
@@ -59,7 +62,7 @@ public class PinManager : MonoBehaviour
         foreach (GameObject pin in pins)
         {
             Rigidbody rb = pin.GetComponent<Rigidbody>();
-            if (rb != null && (rb.rotation.eulerAngles.x < 225f || rb.rotation.eulerAngles.x > 315f)) // Check if pin is knocked down
+            if (rb != null && (rb.rotation.eulerAngles.z < -15f || rb.rotation.eulerAngles.z > 15f)) // Check if pin is knocked down
             {
                 knockedDownPins++;
             }

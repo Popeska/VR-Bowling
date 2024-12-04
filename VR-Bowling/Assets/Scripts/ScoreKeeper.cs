@@ -7,13 +7,14 @@ using TMPro;
 public class ScoreKeeper : MonoBehaviour
 {
     private int[] scores = new int[21]; // Holds the score for up to 21 rolls (max rolls possible in a game)
-    private int currentRoll = 0; // Keeps track of the current roll
+    private int currentRoll = 1; // Keeps track of the current roll
     private int currentFrame = 1; // Keeps track of the current frame (1 to 10)
     private int totalScore = 0; // Total score of the game
 
     public TextMeshProUGUI[] frameScoreText;  // An array of TextMeshProUGUI to display each frame's score
     public TextMeshProUGUI totalScoreText;    // TextMeshProUGUI for displaying the total score
 
+    
     // Method to record the score after a roll
     public void RecordRoll(int pins)
     {
@@ -51,11 +52,11 @@ public class ScoreKeeper : MonoBehaviour
             {
                 if (IsStrike(rollIndex))
                 {
-                    frameScoreText[frame - 1].text = "Strike";  // Display "Strike" for strikes
+                    frameScoreText[frame - 1].text = "X";  // Display "Strike" for strikes
                 }
                 else if (IsSpare(rollIndex))
                 {
-                    frameScoreText[frame - 1].text = "Spare";   // Display "Spare" for spares
+                    frameScoreText[frame - 1].text = "/";   // Display "Spare" for spares
                 }
                 else
                 {

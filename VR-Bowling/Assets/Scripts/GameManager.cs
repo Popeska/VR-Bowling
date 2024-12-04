@@ -20,10 +20,9 @@ public class GameManager : MonoBehaviour
     {
         if (frameInProgress && ballController.BallThrown)
         {
-            if (pinManager.CheckIfRoundOver() || BallStopped())
-            {
+          
                 HandleRoll();
-            }
+           
         }
     }
 
@@ -40,6 +39,7 @@ public class GameManager : MonoBehaviour
     {
         int pinsKnocked = pinManager.GetKnockedDownCount();
         scoreKeeper.RecordRoll(pinsKnocked);
+        Debug.Log("GM: " + pinsKnocked);
 
         if (currentRoll == 1)
         {
