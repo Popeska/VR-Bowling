@@ -25,6 +25,9 @@ public class PinManager : MonoBehaviour
     void Update()
     {
         // You can add logic here if you want to check pin states continuously
+        if(Input.GetKeyDown(KeyCode.Space)){
+            ResetPins();
+       }
     }
 
     // Method to reset all pins to their original position

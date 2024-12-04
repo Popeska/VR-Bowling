@@ -23,19 +23,16 @@ public class BallController : MonoBehaviour
 
     void Update()
     {
-        // Get input from keyboard (WASD or arrow keys)
-        float moveForward = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-        float moveRight = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
-
-        // Apply movement to the ball
-        Vector3 movement = new Vector3(-moveRight, 0f, moveForward);
-        rb.AddForce(movement, ForceMode.VelocityChange);
-
+       if(Input.GetKeyDown(KeyCode.Space)){
+            ResetBall();
+       }
+/*
         //TODO: Check if the ball has been "thrown" or moved
         if (movement.magnitude > 0.1f)
         {
             ballThrown = true;
         }
+        */
     }
 
     // Reset the ball to its original position and stop its motion
