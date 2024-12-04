@@ -2,90 +2,88 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public PinManager pinManager; // Reference to PinManager
-    public BallController ballController; // Reference to BallController
+    public PinManager pinManager; // Manages pin states
+    public BallController ballController; // Handles ball control
+    public ScoreKeeper scoreKeeper; // Tracks and displays scores
 
-    public ScoreKeeper scoreKeeper; // Reference to ScoreKeeper
-    private int currentFrame = 1;
-    private int currentThrow = 1;
-    private const int maxFrames = 10;
-    private bool frameOver = false; // Track if the current frame is over
+    private int currentFrame = 1; // Track the current frame (1-10)
+    private int currentRoll = 1; // Track the roll within the frame (1 or 2)
+    private const int maxFrames = 10; // Max number of frames in a game
+    private bool frameInProgress = false; // Is the current frame active
+
+    void Start()
+    {
+        StartFrame(); // Begin the first frame
+    }
 
     void Update()
     {
-        // Check if the ball has been thrown and the frame is over
-        if (ballController.BallThrown && !frameOver)
+        if (frameInProgress && ballController.BallThrown)
         {
-            // Check if all pins are down or if the ball stopped
-            if (pinManager.CheckIfRoundOver())
+            if (pinManager.CheckIfRoundOver() || BallStopped())
             {
-                frameOver = true; // Mark frame as over
-                HandleThrow();
+                HandleRoll();
             }
         }
     }
 
-    void HandleThrow()
+    void StartFrame()
     {
-        if (currentThrow == 1)
+        Debug.Log($"Starting Frame {currentFrame}");
+        pinManager.ResetPins(); // Reset pins
+        ballController.ResetBall(); // Reset ball
+        currentRoll = 1;
+        frameInProgress = true;
+    }
+
+    void HandleRoll()
+    {
+        int pinsKnocked = pinManager.GetKnockedDownCount();
+        scoreKeeper.RecordRoll(pinsKnocked);
+
+        if (currentRoll == 1)
         {
-            if (pinManager.CheckIfRoundOver()) // Strike condition
+            if (pinsKnocked == 10) // Strike
             {
                 Debug.Log("Strike!");
-                NextFrame();
+                EndFrame();
             }
             else
             {
-                currentThrow = 2; // Move to second throw
-                ResetBallOnly();
+                currentRoll = 2; // Move to second roll
+                ballController.ResetBall(); // Reset ball for next roll
             }
         }
-        else if (currentThrow == 2)
+        else if (currentRoll == 2)
         {
-            Debug.Log("End of Frame " + currentFrame);
-            NextFrame();
+            Debug.Log($"End of Frame {currentFrame}");
+            EndFrame();
         }
     }
 
-    void NextFrame()
+    void EndFrame()
     {
+        frameInProgress = false;
+
         if (currentFrame < maxFrames)
         {
             currentFrame++;
-            currentThrow = 1;
-            pinManager.ResetPins(); // Reset all pins
-            ballController.ResetBall(); // Reset the ball
+            StartFrame(); // Start the next frame
         }
         else
         {
-            EndGame();
+            EndGame(); // End the game after the final frame
         }
-
-        frameOver = false; // Reset frame status
     }
 
-    void ResetBallOnly()
+    bool BallStopped()
     {
-        ballController.ResetBall(); // Reset ball without resetting pins
-        frameOver = false; // Allow next throw
+        return ballController.GetComponent<Rigidbody>().velocity.magnitude < 0.1f; // Check if the ball has stopped
     }
 
     void EndGame()
     {
-        Debug.Log("Game Over! Final Score: " + 40);
-        // TODO: Implement end game logic (e.g., show score UI, restart, etc.)
+        Debug.Log("Game Over! Final Score: " + scoreKeeper.GetTotalScore());
+        // TODO: Display final score UI and restart option
     }
-
-/*
-    void ResetGame()
-    {
-        currentFrame = 1;
-        currentThrow = 1;
-        totalScore = 0;
-        scoreKeeper.ResetScore();
-        pinManager.ResetPins();
-        ballController.ResetBall();
-        UpdateUI();
-    }
-    */
 }
