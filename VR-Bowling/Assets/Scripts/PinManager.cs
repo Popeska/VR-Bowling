@@ -39,7 +39,7 @@ public class PinManager : MonoBehaviour
             pins[i].transform.position = startingPositions[i];
 
             // Reset rotation
-            pins[i].transform.rotation = Quaternion.Euler(270, 0, 0);
+            pins[i].transform.rotation = Quaternion.Euler(0, 0, 0);
 
             // Optionally reset the Rigidbody if needed
             Rigidbody rb = pins[i].GetComponent<Rigidbody>();
