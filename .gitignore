@@ -77,4 +77,5 @@ crashlytics-build.properties
 #/VR-Bowling/Library/
 
 *.dwlt
+/VR-Bowling/UserSettings
 
