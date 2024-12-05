@@ -76,3 +76,5 @@ crashlytics-build.properties
 # Removing shader package that's over 100MB
 #/VR-Bowling/Library/
 
+*.dwlt
+
