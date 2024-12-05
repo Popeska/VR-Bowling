@@ -6,10 +6,10 @@ public class GameManager : MonoBehaviour
     public BallController ballController; // Handles ball control
     public ScoreKeeper scoreKeeper; // Tracks and displays scores
 
-    private int currentFrame = 1; // Track the current frame (1-10)
-    private int currentRoll = 1; // Track the roll within the frame (1 or 2)
     private const int maxFrames = 10; // Max number of frames in a game
     private bool frameInProgress = false; // Is the current frame active
+    bool rollHandled = true;
+    bool gameOver = false;
 
     void Start()
     {
@@ -18,20 +18,28 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (frameInProgress && ballController.BallThrown)
+        if(gameOver){
+            return;
+        }
+        // Check if the ball has reached the -8 Z position and has been thrown
+        if (rollHandled && ballController.transform.position.y <= -10f && scoreKeeper.getCurrentFrame() <= 10)
         {
-          
-                HandleRoll();
-           
+            // Handle the roll or next step in the game loop
+            rollHandled = false;
+            Debug.Log("We are handling a roll");
+            HandleRoll();
+
+        }
+        if(scoreKeeper.getCurrentFrame() > 10){
+            EndGame();
         }
     }
 
     void StartFrame()
     {
-        Debug.Log($"Starting Frame {currentFrame}");
+        Debug.Log($"Starting Frame {scoreKeeper.getCurrentFrame()}");
         pinManager.ResetPins(); // Reset pins
         ballController.ResetBall(); // Reset ball
-        currentRoll = 1;
         frameInProgress = true;
     }
 
@@ -41,33 +49,35 @@ public class GameManager : MonoBehaviour
         scoreKeeper.RecordRoll(pinsKnocked);
         Debug.Log("GM: " + pinsKnocked);
 
-        if (currentRoll == 1)
+        if (scoreKeeper.getCurrentRoll() == 1)
         {
             if (pinsKnocked == 10) // Strike
             {
+                ballController.ResetBall();
                 Debug.Log("Strike!");
                 EndFrame();
             }
             else
             {
-                currentRoll = 2; // Move to second roll
                 ballController.ResetBall(); // Reset ball for next roll
             }
         }
-        else if (currentRoll == 2)
+        else if (scoreKeeper.getCurrentRoll() == 2)
         {
-            Debug.Log($"End of Frame {currentFrame}");
+            Debug.Log($"End of Frame {scoreKeeper.getCurrentFrame()}");
             EndFrame();
         }
+        rollHandled = true;
+
     }
 
     void EndFrame()
     {
         frameInProgress = false;
+        int currentFrame = scoreKeeper.getCurrentFrame();
 
         if (currentFrame < maxFrames)
         {
-            currentFrame++;
             StartFrame(); // Start the next frame
         }
         else
@@ -84,6 +94,7 @@ public class GameManager : MonoBehaviour
     void EndGame()
     {
         Debug.Log("Game Over! Final Score: " + scoreKeeper.GetTotalScore());
+        gameOver = true;
         // TODO: Display final score UI and restart option
     }
 }

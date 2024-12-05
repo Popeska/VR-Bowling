@@ -23,16 +23,17 @@ public class BallController : MonoBehaviour
 
     void Update()
     {
+        
        if(Input.GetKeyDown(KeyCode.Space)){
             ResetBall();
        }
-/*
+
         //TODO: Check if the ball has been "thrown" or moved
-        if (movement.magnitude > 0.1f)
+        if (rb.velocity.magnitude > 0.1f)
         {
             ballThrown = true;
         }
-        */
+        
     }
 
     // Reset the ball to its original position and stop its motion

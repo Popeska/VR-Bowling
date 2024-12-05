@@ -28,7 +28,11 @@ public class PinManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)){
             //ResetPins();
             int pinsknock = GetKnockedDownCount();
-            Debug.Log("PM: " + pinsknock);
+            Debug.Log("Pins Knocked: " + pinsknock);
+       }
+       if(Input.GetKeyDown(KeyCode.R)){
+            //ResetPins();
+            ResetPins();
        }
        
     }
@@ -62,7 +66,7 @@ public class PinManager : MonoBehaviour
         foreach (GameObject pin in pins)
         {
             Rigidbody rb = pin.GetComponent<Rigidbody>();
-            if (rb != null && (rb.rotation.eulerAngles.z < -15f || rb.rotation.eulerAngles.z > 15f)) // Check if pin is knocked down
+            if (rb != null && (rb.rotation.eulerAngles.z < -15f || rb.rotation.eulerAngles.z > 15f) || pin.transform.position.y < -1f ) // Check if pin is knocked down
             {
                 knockedDownPins++;
             }
@@ -73,6 +77,10 @@ public class PinManager : MonoBehaviour
     // Method to check if the round is over (all pins knocked down)
     public bool CheckIfRoundOver()
     {
-        return knockedDownPins >= totalPins; // Return true if all pins are knocked down
+        if(knockedDownPins >= totalPins){
+            Debug.Log("All Pins Knocked Down");
+            return true; // Return true if all pins are knocked down
+        }
+        return false;
     }
 }

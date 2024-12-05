@@ -7,64 +7,130 @@ using TMPro;
 public class ScoreKeeper : MonoBehaviour
 {
     private int[] scores = new int[21]; // Holds the score for up to 21 rolls (max rolls possible in a game)
+    private Frame[] frames = new Frame[10];
     private int currentRoll = 1; // Keeps track of the current roll
-    private int currentFrame = 1; // Keeps track of the current frame (1 to 10)
+    private int currentFrame = 0; // Keeps track of the current frame (1 to 10)
     private int totalScore = 0; // Total score of the game
+    private int totalRolls = 0;
 
     public TextMeshProUGUI[] frameScoreText;  // An array of TextMeshProUGUI to display each frame's score
     public TextMeshProUGUI totalScoreText;    // TextMeshProUGUI for displaying the total score
 
-    
+    void Start()
+    {
+        // Initialize all frames
+        for (int i = 0; i < frames.Length; i++)
+        {
+            frames[i] = new Frame();
+        }
+    }
+
     // Method to record the score after a roll
     public void RecordRoll(int pins)
     {
-        scores[currentRoll] = pins;
-        currentRoll++;
-
-        if (currentFrame <= 10)
+        totalRolls++;
+        if (currentFrame >= 10)
         {
-            if (IsStrike(currentRoll - 1))
+            Debug.LogWarning("All frames are complete!");
+            return;
+        }
+
+
+        if (currentRoll == 1)
+        {
+            frames[currentFrame].FirstRoll = pins;
+            if (frames[currentFrame].IsStrike())
             {
-                currentFrame++; // Move to the next frame immediately after a strike
+                // Strike ends the frame immediately
+                Debug.Log($"Frame {currentFrame + 1}: Strike!");
+                advanceFrame();
             }
-            else if (currentRoll % 2 == 0 || currentFrame == 10) // If it's the second throw of the frame
+            else
             {
-                currentFrame++; // Move to the next frame after the second throw
+                currentRoll = 2; // Move to the second roll
             }
+        }
+        else if (currentRoll == 2)
+        {
+            frames[currentFrame].SecondRoll = pins;
+            Debug.Log($"Frame {currentFrame + 1}: First Roll: {frames[currentFrame].FirstRoll}, Second Roll: {frames[currentFrame].SecondRoll}");
+            advanceFrame();
         }
 
         UpdateScore();
     }
+
+    private void advanceFrame()
+    {
+        frames[currentFrame].Total = calculateFrameScore(currentFrame);
+
+        if(currentFrame > 0 && frames[currentFrame].IsStrike()){
+            frames[currentFrame - 1].Total += frames[currentFrame].Total;
+        }
+
+        currentFrame++;
+        currentRoll = 1; // Reset roll for the next frame
+    }
+
+    private int calculateFrameScore(int frameIndex)
+    {
+        Frame frame = frames[frameIndex];
+        int score = frame.FirstRoll + frame.SecondRoll;
+
+        // Handle strike and spare scoring for frames 1-9
+        if (frameIndex < 9)
+        {
+            if (frame.IsStrike())
+            {
+                Frame nextFrame = frames[frameIndex + 1];
+                score += nextFrame.FirstRoll;
+
+                // Add second roll of the next frame unless it's also a strike, then add the first roll of the frame after
+                if (nextFrame.IsStrike() && frameIndex + 1 < 9)
+                {
+                    score += frames[frameIndex + 2].FirstRoll;
+                }
+                else
+                {
+                    score += nextFrame.SecondRoll;
+                }
+            }
+            else if (frame.IsSpare())
+            {
+                score += frames[frameIndex + 1].FirstRoll;
+            }
+        }
+
+        return score;
+    }
+
 
     private void UpdateScore()
     {
         totalScore = 0;
         int rollIndex = 0;
 
-        // Update the total score and frame scores
-        for (int frame = 1; frame <= 10; frame++)
-        {
-            int frameScore = CalculateFrameScore(rollIndex);
-            totalScore += frameScore;
 
+        // Update the total score and frame scores
+        for (int frame = 0; frame < 10; frame++)
+        {
             // Update the frame score UI (frameScoreText is an array of 10 TextMeshProUGUI objects)
-            if (frameScoreText != null && frameScoreText.Length >= 10)
+            if (frameScoreText != null && frameScoreText.Length == 10)
             {
-                if (IsStrike(rollIndex))
+                if (frames[frame].IsStrike())
                 {
-                    frameScoreText[frame - 1].text = "X";  // Display "Strike" for strikes
+                    frameScoreText[frame].text = "X";  // Display "Strike" for strikes
                 }
-                else if (IsSpare(rollIndex))
+                else if (frames[frame].IsSpare())
                 {
-                    frameScoreText[frame - 1].text = "/";   // Display "Spare" for spares
+                    frameScoreText[frame].text = "/";   // Display "Spare" for spares
                 }
                 else
                 {
-                    frameScoreText[frame - 1].text = frameScore.ToString();  // Display normal score
+                    frameScoreText[frame].text = frames[frame].Total.ToString();  // Display normal score
                 }
             }
-
-            rollIndex += IsStrike(rollIndex) ? 1 : 2; // Strike takes 1 roll, spare and normal take 2 rolls
+            totalScore += frames[frame].Total;
         }
 
         // Update the total score UI
@@ -74,21 +140,6 @@ public class ScoreKeeper : MonoBehaviour
         }
     }
 
-    private int CalculateFrameScore(int rollIndex)
-    {
-        if (IsStrike(rollIndex))
-        {
-            return 10 + StrikeBonus(rollIndex);
-        }
-        else if (IsSpare(rollIndex))
-        {
-            return 10 + SpareBonus(rollIndex);
-        }
-        else
-        {
-            return scores[rollIndex] + scores[rollIndex + 1];
-        }
-    }
 
     private bool IsStrike(int rollIndex)
     {
@@ -112,6 +163,11 @@ public class ScoreKeeper : MonoBehaviour
 
     public int GetTotalScore()
     {
+        int totalScore = 0;
+        for (int i = 0; i <= currentFrame && i < 10; i++)
+        {
+            totalScore += frames[i].Total;
+        }
         return totalScore;
     }
 
@@ -120,28 +176,12 @@ public class ScoreKeeper : MonoBehaviour
         return currentFrame > 10;
     }
 
-    // Reset the score-related variables when restarting the game
-    public void ResetScore()
-    {
-        scores = new int[21]; // Reset the scores array
-        currentRoll = 0; // Reset the current roll index
-        currentFrame = 1; // Reset to the first frame
-        totalScore = 0; // Reset the total score
+    public int getCurrentFrame(){
+        return currentFrame;
+    }
 
-        // Clear the frame score UI (optional)
-        if (frameScoreText != null)
-        {
-            foreach (var frameText in frameScoreText)
-            {
-                frameText.text = ""; // Clear the text
-            }
-        }
-
-        // Reset the total score UI (optional)
-        if (totalScoreText != null)
-        {
-            totalScoreText.text = "Total Score: 0";  // Reset total score display
-        }
+    public int getCurrentRoll(){
+        return currentRoll;
     }
 }
 
