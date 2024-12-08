@@ -7,6 +7,8 @@ public class KeyboardBallController : MonoBehaviour
 
     private Rigidbody rb;
 
+    private bool ballThrown = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -19,11 +21,22 @@ public class KeyboardBallController : MonoBehaviour
         float moveRight = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
 
         // Apply movement to the ball
-        Vector3 movement = new Vector3(moveRight, 0f, moveForward);
+        Vector3 movement = new Vector3(-moveRight, 0f, -moveForward);
         rb.AddForce(movement, ForceMode.VelocityChange);
 
         // Optional: Rotate the ball with Q/E or left/right arrow keys
         float rotation = Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
         transform.Rotate(0, rotation, 0);
+
+        if(rb.transform.position.z < 0){
+            ballThrown = true;
+        }else{
+            ballThrown = false;
+        }
+    }
+
+    public bool BallThrown
+    {
+        get { return ballThrown; }
     }
 }

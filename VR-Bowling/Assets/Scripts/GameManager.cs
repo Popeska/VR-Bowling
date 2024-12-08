@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     public PinManager pinManager; // Manages pin states
     public BallController ballController; // Handles ball control
     public ScoreKeeper scoreKeeper; // Tracks and displays scores
+    public KeyboardBallController keyBall;
 
     private const int maxFrames = 10; // Max number of frames in a game
     private bool frameInProgress = false; // Is the current frame active
@@ -18,12 +19,20 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        bool ballRolled = keyBall.BallThrown || ballController.BallThrown;
+        bool ballOverEdge = ballController.transform.position.y <= -10f;
+        bool ballStopped = ballController.transform.position.z <= 3f && ballController.ballStopped();
+        bool ballDone = ballOverEdge || ballStopped;
+        //either the ball doesn't reach the end and stops moving, or reaches the end and falls off
         if(gameOver){
             return;
         }
+        //rollHandled is basically a mutex lock
+        //2 cases, either the ball stops moving past halfway position or it goes off the edge
         // Check if the ball has reached the -8 Z position and has been thrown
-        if (rollHandled && ballController.transform.position.y <= -10f && scoreKeeper.getCurrentFrame() <= 10)
+        if (rollHandled && ballDone && ballRolled && (scoreKeeper.getCurrentFrame() <= 10))
         {
+            Debug.Log($"Ball Position is {ballController.transform.position.z} which is {ballController.transform.position.z <= 3f}");
             // Handle the roll or next step in the game loop
             rollHandled = false;
             Debug.Log("We are handling a roll");

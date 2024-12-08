@@ -29,7 +29,7 @@ public class BallController : MonoBehaviour
        }
 
         //TODO: Check if the ball has been "thrown" or moved
-        if (rb.velocity.magnitude > 0.1f)
+        if (rb.velocity.magnitude > 1f)
         {
             ballThrown = true;
         }
@@ -48,5 +48,9 @@ public class BallController : MonoBehaviour
     public bool BallThrown
     {
         get { return ballThrown; }
+    }
+
+    public bool ballStopped(){
+        return rb.velocity.magnitude < 0.1f;
     }
 }

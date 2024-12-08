@@ -1343,6 +1343,7 @@ MonoBehaviour:
   pinManager: {fileID: 1467033403}
   ballController: {fileID: 542877500}
   scoreKeeper: {fileID: 1294293215}
+  keyBall: {fileID: 542877499}
 --- !u!4 &568039244
 Transform:
   m_ObjectHideFlags: 0
@@ -3100,11 +3101,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2510270094237666051, guid: 01c38db2451292c44a458fbfa8f258ed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.35
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 2510270094237666051, guid: 01c38db2451292c44a458fbfa8f258ed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.640426
+      value: 7.52
       objectReference: {fileID: 0}
     - target: {fileID: 2510270094237666051, guid: 01c38db2451292c44a458fbfa8f258ed, type: 3}
       propertyPath: m_LocalRotation.w
