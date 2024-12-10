@@ -77,6 +77,6 @@ crashlytics-build.properties
 #/VR-Bowling/Library/
 
 *.dwlt
-/VR-Bowling/UserSettings
+./VR-Bowling/UserSettings
 ./VR-Bowling/UserSettings/Layouts/default-2022.dwlt
 
