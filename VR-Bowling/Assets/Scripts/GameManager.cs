@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
     public PinManager pinManager; // Manages pin states
     public BallController ballController; // Handles ball control
     public ScoreKeeper scoreKeeper; // Tracks and displays scores
-    public KeyboardBallController keyBall;
+    //public KeyboardBallController keyBall;
 
     private const int maxFrames = 10; // Max number of frames in a game
     private bool frameInProgress = false; // Is the current frame active
@@ -14,13 +14,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        keyBall = FindObjectOfType<KeyboardBallController>();
+        //keyBall = FindObjectOfType<KeyboardBallController>();
         StartFrame(); // Begin the first frame
     }
 
     void Update()
     {
-        bool ballRolled = keyBall.BallThrown || ballController.BallThrown;
+        bool ballRolled = ballController.BallThrown;
         bool ballOverEdge = ballController.transform.position.y <= -10f;
         bool ballStopped = ballController.transform.position.z <= 3f && ballController.ballStopped();
         bool ballDone = ballOverEdge || ballStopped;
