@@ -9,17 +9,17 @@ using UnityEngine;
 
 public class BallReturner : MonoBehaviour
 {
-    public Transform spawnPoint; // Where ball is instanced/returned. Might change depending on lane played.
+    public List<Transform> spawnPoints; // List of coordinates where ball is instanced/returned
     
     public GameObject ballPrefab;
     public List<GameObject> ballsOnReturner; // The # of balls on returner
-    public int spawnLimit; // Max # of balls can spawn
+    private int spawnLimit = 3; // Max # of balls can spawn
 
     public List<float> uvOffset; // Offset Y for ball texture
 
-    // For the balls to roll forawrd
-    public float moveSpeed = 2f;
-    public float rotateSpeed = 2f;
+    private Ball[] sceneBalls; // Balls already instanced in scene
+
+
 
 
     // Start is called before the first frame update
@@ -30,14 +30,12 @@ public class BallReturner : MonoBehaviour
         uvOffset.Add(0.2482f);
         uvOffset.Add(0.2482f*2);
         uvOffset.Add(0.2482f*3);
-    }
 
-    // Call this to return the ball when it drops end of lane
-    public void ReturnBall()
-    {
+        sceneBalls = FindObjectsOfType<Ball>();
 
     }
 
+    
     // Instantiates and Randomizes ball texture
     private void RandomizeUV(GameObject ball)
     {
@@ -63,29 +61,33 @@ public class BallReturner : MonoBehaviour
 
     }
 
-    // Coroutine to move and rotate the balls forward
-    //private IEnumerator MoveAndRotateBallsForward()
-    
-
-    // Trigger detection for when ball fall through lane
-    private void OnTriggerEnter(Collider other)
+    // Randomize UVs for balls already in scene
+    public void RandomizeUVCurrentBalls() 
     {
-        
+        foreach (Ball ball in sceneBalls)
+        {
+            Debug.Log("Ball found: " + ball.gameObject.name);
+        }
     }
 
+
     // Function to create a new ball
+    // This is the FIRST set of balls
     public void CreateNewBall()
     {
-        // Instantiate a new ball at the spawn point
-        GameObject newBall = Instantiate(ballPrefab, spawnPoint.position, Quaternion.identity);
+        // 
+        for (int i = 0; i < spawnLimit; i++) {
+            // Instantiate a new ball at the spawn point
+            GameObject newBall = Instantiate(ballPrefab, spawnPoints[i].position, Quaternion.identity);
+            
+            // Randomize its Y UV texture offset
+            RandomizeUV(newBall);
 
-        // Randomize its Y UV texture offset
-        RandomizeUV(newBall);
+            // Add the new ball to the returner queue
+            // MAYBE delete
+            ballsOnReturner.Add(newBall);
 
-        // Add the new ball to the returner queue
-        ballsOnReturner.Add(newBall);
-
-        // Start moving and rotating the balls forward
-        //StartCoroutine(MoveAndRotateBallsForward());
+        }        
+        
     }
 }

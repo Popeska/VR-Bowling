@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private AudioSource radioAudioSource;
+
+    private void Start()
     {
-        
+        radioAudioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayAudio()
     {
-        
+        radioAudioSource.Play();
+    }
+
+    public void PauseAudio()
+    {
+        radioAudioSource.Pause();
+    }
+
+    // Change to mute later?
+    public void StopAudio()
+    {
+        radioAudioSource.Stop();
     }
 }
