@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Ball : MonoBehaviour
 {
@@ -8,14 +10,23 @@ public class Ball : MonoBehaviour
     private BallReturner ballReturner;
 
     // Get from ballReturner
-    private Transform spawnPoint;
+    private Vector3 spawnPoint;
+
+    private bool instancedBall;
     void Start()
     {
         // Get script
         ballReturner = FindObjectOfType<BallReturner>();
 
         // Get initial spawnPoint for ball pos reset
-        spawnPoint = ballReturner.spawnPoints[ballReturner.ballsOnReturner.IndexOf(gameObject)];
+        if (instancedBall == true)
+        {
+            spawnPoint = ballReturner.spawnPoints[ballReturner.ballsOnReturner.IndexOf(gameObject)];
+        }
+        else 
+        {
+            spawnPoint = transform.position;
+        }
 
     }
 
@@ -23,7 +34,7 @@ public class Ball : MonoBehaviour
         if (spawnPoint != null)
         {
             // Return ball to the spawn point
-            transform.position = spawnPoint.position;
+            transform.position = spawnPoint;
             gameObject.SetActive(false); // Optionally hide the ball
             gameObject.SetActive(true);  // Reactivate it if needed
         }
@@ -36,5 +47,10 @@ public class Ball : MonoBehaviour
         {
             ReturnToSpawn();
         }
+    }
+
+    public void SetInstancedBall(bool ans)
+    {
+        instancedBall = ans;
     }
 }

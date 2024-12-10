@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class BallReturner : MonoBehaviour
 {
-    public List<Transform> spawnPoints; // List of coordinates where ball is instanced/returned
+    public List<Vector3> spawnPoints; // List of coordinates where ball is instanced/returned
     
     public GameObject ballPrefab;
     public List<GameObject> ballsOnReturner; // The # of balls on returner
@@ -67,6 +67,8 @@ public class BallReturner : MonoBehaviour
         foreach (Ball ball in sceneBalls)
         {
             Debug.Log("Ball found: " + ball.gameObject.name);
+            
+            RandomizeUV(ball.gameObject);
         }
     }
 
@@ -78,7 +80,8 @@ public class BallReturner : MonoBehaviour
         // 
         for (int i = 0; i < spawnLimit; i++) {
             // Instantiate a new ball at the spawn point
-            GameObject newBall = Instantiate(ballPrefab, spawnPoints[i].position, Quaternion.identity);
+            GameObject newBall = Instantiate(ballPrefab, spawnPoints[i], Quaternion.identity);
+            newBall.SetActive(true);
             
             // Randomize its Y UV texture offset
             RandomizeUV(newBall);

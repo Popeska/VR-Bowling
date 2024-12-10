@@ -4543,6 +4543,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f489f1b1bcbd0f48836cceaf474350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  songs:
+  - {fileID: 8300000, guid: b3ea34a3963c70540bd1834f1591eb50, type: 3}
+  - {fileID: 8300000, guid: e4c2993c34a4abc4a86c2cbb4c3d9f0e, type: 3}
+  - {fileID: 8300000, guid: 0a8904abcca001b479403c0b195363cd, type: 3}
+  volume: 0
 --- !u!1 &1009520199
 GameObject:
   m_ObjectHideFlags: 0
@@ -5793,7 +5798,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1320445614}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1004882716}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1320445614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7635,14 +7652,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 189547209}
     m_Modifications:
-    - target: {fileID: 3561493283722128933, guid: 464b696ff80739848b9ee337f099109e, type: 3}
-      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
-      value: 0.17827426
-      objectReference: {fileID: 0}
-    - target: {fileID: 3561493283722128933, guid: 464b696ff80739848b9ee337f099109e, type: 3}
-      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
-      value: 0.056237064
-      objectReference: {fileID: 0}
     - target: {fileID: 8590309442887407956, guid: 464b696ff80739848b9ee337f099109e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.54
@@ -8091,7 +8100,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959344180}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 803e4e58aedb445f49fb1567f9459eef, type: 3}
   m_Name: 
@@ -8128,9 +8137,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoints:
-  - {fileID: 2078136327}
-  - {fileID: 451996284}
-  - {fileID: 377874715}
+  - {x: 4.2479188e-20, y: 9.14e-43, z: 1e-45}
+  - {x: 0, y: 3.1696362e-19, z: 9.11e-43}
+  - {x: 4.6e-44, y: 0, z: 4.2479188e-20}
   ballPrefab: {fileID: 2998717807805518265, guid: 01c38db2451292c44a458fbfa8f258ed, type: 3}
   ballsOnReturner: []
   uvOffset: []

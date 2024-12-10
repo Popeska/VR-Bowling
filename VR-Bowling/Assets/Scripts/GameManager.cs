@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        keyBall = FindObjectOfType<KeyboardBallController>();
         StartFrame(); // Begin the first frame
     }
 

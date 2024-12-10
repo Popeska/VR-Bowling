@@ -30,11 +30,10 @@ public class MusicManager : MonoBehaviour
     {
         _audioSource.Stop();
     }
-
     public void ChangeSong(int songPicked)
     {
         _audioSource.clip = songs[songPicked];
-        PlayAudio()
+        PlayAudio();
     }
 
     public void Update()
