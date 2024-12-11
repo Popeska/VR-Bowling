@@ -64,9 +64,21 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1301311430259829644, guid: 8d7faa15412d99643867ea96e551ca16, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 47721991340609875, guid: 8d7faa15412d99643867ea96e551ca16, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8d7faa15412d99643867ea96e551ca16, type: 3}
       propertyPath: m_Name
       value: DrKawashima
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8d7faa15412d99643867ea96e551ca16, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1403145655878886753, guid: 8d7faa15412d99643867ea96e551ca16, type: 3}
       propertyPath: m_Materials.Array.data[0]
