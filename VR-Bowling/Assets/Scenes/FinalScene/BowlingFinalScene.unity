@@ -4466,7 +4466,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -4567,7 +4567,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b3ea34a3963c70540bd1834f1591eb50, type: 3}
   - {fileID: 8300000, guid: e4c2993c34a4abc4a86c2cbb4c3d9f0e, type: 3}
   - {fileID: 8300000, guid: 0a8904abcca001b479403c0b195363cd, type: 3}
-  volume: 0
+  volume: 5
 --- !u!1 &1009520199
 GameObject:
   m_ObjectHideFlags: 0

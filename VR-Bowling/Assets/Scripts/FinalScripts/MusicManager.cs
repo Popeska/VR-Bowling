@@ -13,27 +13,17 @@ public class MusicManager : MonoBehaviour
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
+        if (!_audioSource.isPlaying)
+        {
+            ChangeSong(Random.Range(0, songs.Length));
+        }
+        
     }
 
-    public void PlayAudio()
-    {
-        _audioSource.Play();
-    }
-
-    public void PauseAudio()
-    {
-        _audioSource.Pause();
-    }
-
-    // Change to mute later?
-    public void StopAudio()
-    {
-        _audioSource.Stop();
-    }
     public void ChangeSong(int songPicked)
     {
         _audioSource.clip = songs[songPicked];
-        PlayAudio();
+        _audioSource.Play();
     }
 
     public void Update()
