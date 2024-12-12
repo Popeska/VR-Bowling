@@ -59,6 +59,16 @@ public class PinManager : MonoBehaviour
         knockedDownPins = 0; // Reset knocked down pins count
     }
 
+    public void teleportPins(){
+        for(int i = 0; i < totalPins; i++){
+            Rigidbody rb = pins[i].GetComponent<Rigidbody>();
+            if (rb != null && (rb.rotation.eulerAngles.z < -15f || rb.rotation.eulerAngles.z > 15f)){
+                //pins[i].transform.position.y = -1f;
+                pins[i].transform.position = new Vector3(0, -1, 0);
+            }
+        }
+    }
+
     // Method to check how many pins have been knocked down
     public int GetKnockedDownCount()
     {

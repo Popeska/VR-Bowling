@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     void HandleRoll()
     {
         int pinsKnocked = pinManager.GetKnockedDownCount();
-        scoreKeeper.RecordRoll(pinsKnocked);
+        //scoreKeeper.RecordRoll(pinsKnocked);
         Debug.Log("GM: " + pinsKnocked);
 
         if (scoreKeeper.getCurrentRoll() == 1)
@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                pinManager.teleportPins();
                 ballController.ResetBall(); // Reset ball for next roll
             }
         }
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
             Debug.Log($"End of Frame {scoreKeeper.getCurrentFrame()}");
             EndFrame();
         }
+        scoreKeeper.RecordRoll(pinsKnocked);
         rollHandled = true;
 
     }
