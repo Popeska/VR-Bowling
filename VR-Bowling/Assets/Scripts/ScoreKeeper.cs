@@ -136,7 +136,7 @@ public class ScoreKeeper : MonoBehaviour
         // Update the total score UI
         if (totalScoreText != null)
         {
-            totalScoreText.text = "Total Score: " + totalScore.ToString();
+            totalScoreText.text = totalScore.ToString();
         }
     }
 
